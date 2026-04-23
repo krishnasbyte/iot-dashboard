@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # MQTT Broker (Mosquitto) - Message routing for sensors
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: mqtt-broker
+    ports:
+      - "1883:1883"      # MQTT port for sensors
+      - "9001:9001"      # WebSocket port for browsers
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - mosquitto-data:/mosquitto/data
+      - mosquitto-log:/mosquitto/log
+    networks:
+      - iot-network
+    restart: unless-stopped
+
+  # Time-Series Database (InfluxDB) - Optimized for sensor data
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    ports:
+      - "8086:8086"      # HTTP API port
+    environment:
+      - INFLUXDB_DB=iot_metrics
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin123
+      - INFLUXDB_HTTP_AUTH_ENABLED=true
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    networks:
+      - iot-network
+    restart: unless-stopped
+
+  # PostgreSQL - Device management and metadata
+  postgres:
+    image: postgres:15
+    container_name: iot-postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: iot_devices
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - iot-network
+    restart: unless-stopped
+
+networks:
+  iot-network:
+    driver: bridge
+
+volumes:
+  mosquitto-data:
+  mosquitto-log:
+  influxdb-data:
+  postgres-data:

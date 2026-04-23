@@ -1,0 +1,91 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/bikash/projects/iot-dashboard/IotApi/IotApi.csproj": {}
+  },
+  "projects": {
+    "/home/bikash/projects/iot-dashboard/IotApi/IotApi.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/bikash/projects/iot-dashboard/IotApi/IotApi.csproj",
+        "projectName": "IotApi",
+        "projectPath": "/home/bikash/projects/iot-dashboard/IotApi/IotApi.csproj",
+        "packagesPath": "/home/bikash/.nuget/packages/",
+        "outputPath": "/home/bikash/projects/iot-dashboard/IotApi/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/bikash/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "InfluxDB.Client": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "MQTTnet": {
+              "target": "Package",
+              "version": "[5.1.0.1559, )"
+            },
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[8.0.25, )"
+            },
+            "Microsoft.AspNetCore.SignalR": {
+              "target": "Package",
+              "version": "[1.2.9, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[10.1.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/bikash/.dotnet/sdk/8.0.419/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

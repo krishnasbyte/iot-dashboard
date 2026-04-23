@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IotApi", "IotApi\IotApi.csproj", "{FF7F0338-1C4C-4BF8-8773-2235B9B8E949}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SensorSimulator", "SensorSimulator\SensorSimulator.csproj", "{20A7F3CE-3AE3-4377-8156-62CECF0B055D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF7F0338-1C4C-4BF8-8773-2235B9B8E949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF7F0338-1C4C-4BF8-8773-2235B9B8E949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF7F0338-1C4C-4BF8-8773-2235B9B8E949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF7F0338-1C4C-4BF8-8773-2235B9B8E949}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20A7F3CE-3AE3-4377-8156-62CECF0B055D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20A7F3CE-3AE3-4377-8156-62CECF0B055D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20A7F3CE-3AE3-4377-8156-62CECF0B055D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20A7F3CE-3AE3-4377-8156-62CECF0B055D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
