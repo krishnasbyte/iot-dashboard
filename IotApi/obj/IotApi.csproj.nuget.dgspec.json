@@ -45,23 +45,19 @@
           "dependencies": {
             "InfluxDB.Client": {
               "target": "Package",
-              "version": "[5.0.0, )"
+              "version": "[4.17.0, )"
             },
             "MQTTnet": {
               "target": "Package",
-              "version": "[5.1.0.1559, )"
+              "version": "[4.3.7.1207, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.25, )"
             },
-            "Microsoft.AspNetCore.SignalR": {
-              "target": "Package",
-              "version": "[1.2.9, )"
-            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[10.1.7, )"
+              "version": "[6.6.2, )"
             }
           },
           "imports": [

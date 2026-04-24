@@ -50,3 +50,4 @@
 /home/bikash/projects/iot-dashboard/SensorSimulator/obj/Debug/net8.0/SensorSimulator.pdb
 /home/bikash/projects/iot-dashboard/SensorSimulator/obj/Debug/net8.0/SensorSimulator.genruntimeconfig.cache
 /home/bikash/projects/iot-dashboard/SensorSimulator/obj/Debug/net8.0/ref/SensorSimulator.dll
+/home/bikash/projects/iot-dashboard/SensorSimulator/obj/Debug/net8.0/SensorSimulator.sourcelink.json
