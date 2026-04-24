@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Sensor Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🌡️ IoT Sensor Dashboard</h1>
+        <div class="device-info">
+            <span>Device: <strong id="deviceId">sensor-01</strong></span>
+            <span id="status" class="status online">🟢 Live</span>
+            <span id="lastUpdate">Waiting for data...</span>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <h3>🌡️ Temperature</h3>
+                <div class="value" id="temperature">--</div>
+                <div class="unit">°C</div>
+                <div class="trend" id="tempTrend"></div>
+            </div>
+            <div class="card">
+                <h3>💧 Humidity</h3>
+                <div class="value" id="humidity">--</div>
+                <div class="unit">%</div>
+                <div class="trend" id="humTrend"></div>
+            </div>
+            <div class="card">
+                <h3>📊 Pressure</h3>
+                <div class="value" id="pressure">--</div>
+                <div class="unit">hPa</div>
+                <div class="trend" id="presTrend"></div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="sensorChart"></canvas>
+        </div>
+
+        <div class="data-table">
+            <h3>Recent Readings</h3>
+            <table id="readingsTable">
+                <thead>
+                    <tr><th>Time</th><th>Temperature (°C)</th><th>Humidity (%)</th><th>Pressure (hPa)</th></tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr><td colspan="4">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SensorSimulator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e2f95228b5d89f8e3a171962d242d71fb2cf7cee")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6339168ae6c6fd2f3f822f103a82b3867d36694c")]
 [assembly: System.Reflection.AssemblyProductAttribute("SensorSimulator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SensorSimulator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
