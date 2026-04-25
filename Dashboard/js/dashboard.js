@@ -1,10 +1,5 @@
-// Dynamic API URL - works with localhost OR IP address
-const API_URL = `${window.location.protocol}//${window.location.hostname}:5215`;
-
-console.log(`Dashboard connecting to API at: ${API_URL}`);
-
+// Use relative path - nginx will proxy to /api/
 let chart;
-let previousData = null;
 
 function initChart() {
     const ctx = document.getElementById('sensorChart').getContext('2d');
@@ -17,9 +12,15 @@ function initChart() {
 
 async function fetchData() {
     try {
-        const response = await fetch(`${API_URL}/api/sensor/memory`);
-        if (!response.ok) throw new Error('API not responding');
+        // Use relative path - this will go through nginx proxy
+        const response = await fetch('/api/sensor/memory');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        
         const data = await response.json();
+        console.log('Data received:', data.length, 'records');
         
         if (data && data.length > 0) {
             const latest = data[data.length - 1];
@@ -54,9 +55,11 @@ async function fetchData() {
         console.error('Fetch error:', error);
         document.getElementById('status').innerHTML = '🔴 Offline';
         document.getElementById('status').className = 'status offline';
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="4">Error connecting to API. Make sure API is running.</td></tr>';
     }
 }
 
+// Initialize and start
 initChart();
 fetchData();
 setInterval(fetchData, 5000);

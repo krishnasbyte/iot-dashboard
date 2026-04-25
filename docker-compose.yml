@@ -1,7 +1,7 @@
 services:
   mosquitto:
     image: eclipse-mosquitto:2.0
-    container_name: mqtt-broker
+    container_name: iot-mosquitto
     ports:
       - "1883:1883"
       - "9001:9001"
@@ -10,10 +10,15 @@ services:
       - mosquitto-data:/mosquitto/data
       - mosquitto-log:/mosquitto/log
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mosquitto_sub", "-t", "$$SYS/#", "-C", "1", "-W", "1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   influxdb:
     image: influxdb:2.7
-    container_name: influxdb
+    container_name: iot-influxdb
     ports:
       - "8086:8086"
     environment:
@@ -26,18 +31,85 @@ services:
     volumes:
       - influxdb-data:/var/lib/influxdb2
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   postgres:
     image: postgres:15
     container_name: iot-postgres
+    ports:
+      - "5433:5432"
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123
       POSTGRES_DB: iot_devices
-    ports:
-      - "5433:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "admin"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  iot-api:
+    build:
+      context: .
+      dockerfile: IotApi/Dockerfile
+    container_name: iot-api
+    ports:
+      - "5215:5215"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - InfluxDB__Url=http://iot-influxdb:8086
+      - InfluxDB__Token=my-super-secret-token-123
+      - InfluxDB__Bucket=iot_metrics
+      - InfluxDB__Org=my-org
+    depends_on:
+      influxdb:
+        condition: service_healthy
+      mosquitto:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5215/api/sensor/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dashboard/Dockerfile
+    container_name: iot-dashboard
+    ports:
+      - "5500:80"
+    depends_on:
+      iot-api:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  simulator:
+    build:
+      context: ./SensorSimulator
+      dockerfile: Dockerfile
+    container_name: iot-simulator
+    environment:
+      - DEVICE_ID=sensor-01
+      - API_URL=http://iot-api:5215
+    depends_on:
+      iot-api:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:

@@ -1,56 +1,59 @@
-# 🌡️ IoT Sensor Dashboard
+# 🌡️ IoT Sensor Dashboard - Complete Dockerized System
 
 [![.NET](https://img.shields.io/badge/.NET-8.0-purple)](https://dotnet.microsoft.com/)
 [![MQTT](https://img.shields.io/badge/MQTT-Mosquitto-blue)](https://mosquitto.org/)
 [![InfluxDB](https://img.shields.io/badge/InfluxDB-2.7-green)](https://influxdata.com/)
+[![Docker](https://img.shields.io/badge/Docker-6%20Services-blue)](https://docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)]()
 
 ## 📌 Overview
 
-A **production-grade IoT Sensor Monitoring System** running on a **Raspberry Pi 5** with K3s Kubernetes. This project demonstrates real-time sensor data ingestion via MQTT, time-series storage with InfluxDB, and a live web dashboard.
+A **production-grade IoT Sensor Monitoring System** fully containerized and running on a **Raspberry Pi 5**. This project demonstrates a complete end-to-end IoT solution with real-time data visualization.
 
-### 🎯 Why This Project Stands Out
+### 🎯 Key Features
 
-- **Runs on $80 Raspberry Pi 5** - Full microservices on edge hardware
-- **ARM64 Optimized** - Containerized for ARM architecture
-- **Dual Storage** - In-memory (real-time) + InfluxDB (historical)
-- **MQTT + HTTP** - Both protocols supported
-- **Real-time Dashboard** - Live charts updating every 5 seconds
-- **Production Patterns** - Health checks, dependency injection, background services
+- ✅ **6 Docker Containers** - Full containerization with docker-compose
+- ✅ **MQTT Protocol** - Lightweight messaging for IoT devices
+- ✅ **Time-Series Database** - InfluxDB for efficient metrics storage
+- ✅ **Real-time Dashboard** - Live charts with Chart.js
+- ✅ **RESTful API** - Clean .NET 8 API with health checks
+- ✅ **ARM64 Optimized** - Runs efficiently on Raspberry Pi 5
+- ✅ **Health Checks** - Production-ready container monitoring
 
-## 🏗️ Architecture
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ COMPLETE IoT ARCHITECTURE │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ │
-│ ┌─────────────────┐ MQTT/HTTP ┌─────────────────────────────────┐ │
-│ │ SensorSimulator │ ───────────────→ │ IoT API │ │
-│ │ (C# Console) │ │ (C# .NET 8) │ │
-│ └─────────────────┘ │ │ │
-│ │ ┌──────────┐ ┌──────────────┐ │ │
-│ ┌─────────────────┐ │ │ MQTT │ │ In-Memory │ │ │
-│ │ MQTT Broker │ ←───────────────── │ │ Sub │ │ Storage │ │ │
-│ │ (Mosquitto) │ │ └──────────┘ └──────────────┘ │ │
-│ └─────────────────┘ │ │ │ │ │
-│ │ ▼ ▼ │ │
-│ │ ┌─────────────────────────┐ │ │
-│ │ │ InfluxDB │ │ │
-│ │ │ (Time-Series DB) │ │ │
-│ │ └─────────────────────────┘ │ │
-│ └───────────────┬─────────────────┘ │
-│ │ │
-│ │ REST API │
-│ ▼ │
-│ ┌─────────────────────────────────┐ │
-│ │ Web Dashboard │ │
-│ │ (HTML/CSS/JavaScript) │ │
-│ │ │ │
-│ │ • Live temperature chart │ │
-│ │ • Real-time updates (5s) │ │
-│ │ • Historical data view │ │
-│ └─────────────────────────────────┘ │
-│ │
+## 🏗️ System Architecture
+
+┌─────────────────────────────────────────────────────────────────────────────┐\
+│ DOCKERIZED IoT SYSTEM │\
+│ (Raspberry Pi 5) │\
+├─────────────────────────────────────────────────────────────────────────────┤\
+│ │\
+│ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ │\
+│ │ Mosquitto │ │ InfluxDB │ │ PostgreSQL │ │\
+│ │ (MQTT) │ │ :8086 │ │ :5433 │ │\
+│ │ :1883 │ │ │ │ │ │\
+│ └──────┬───────┘ └──────┬───────┘ └──────┬───────┘ │\
+│ │ │ │ │\
+│ └───────────────────┼───────────────────┘ │\
+│ │ │\
+│ ▼ │\
+│ ┌──────────────┐ │\
+│ │ IoT API │ │\
+│ │ :5215 │ │\
+│ │ (.NET 8) │ │\
+│ └──────┬───────┘ │\
+│ │ │\
+│ ┌────────────┼────────────┐ │\
+│ ▼ ▼ ▼ │\
+│ ┌──────────┐ ┌──────────┐ ┌──────────┐ │\
+│ │Simulator │ │Dashboard │ │ InfluxDB │ │\
+│ │ (Sensor │ │ :5500 │ │ Storage │ │\
+│ │ Data) │ │ │ │ │ │\
+│ └──────────┘ └──────────┘ └──────────┘ │\
+│ │\
+│ ✅ One command starts all 6 containers │\
+│ ✅ Automatic health checks │\
+│ ✅ Container orchestration with docker-compose │\
+│ │\
 └─────────────────────────────────────────────────────────────────────────────┘
 
 text
@@ -59,178 +62,233 @@ text
 
 ### Prerequisites
 
-- Raspberry Pi 5 with Ubuntu 64-bit
+- Raspberry Pi 5 with Ubuntu 64-bit (or any Docker-supported system)
 - Docker & Docker Compose
-- .NET 8 SDK
-- Python 3 (for dashboard server)
+- Git
 
-### Step 1: Clone the Repository
+### One-Command Deployment
 
 ```bash
+# Clone the repository
 git clone https://github.com/krishnasbyte/iot-dashboard.git
 cd iot-dashboard
-Step 2: Start Infrastructure (MQTT + InfluxDB + PostgreSQL)
-bash
-# Start all Docker services
+
+# Start all 6 services
 docker-compose up -d
 
-# Verify containers are running
+# Check status
 docker-compose ps
-Step 3: Run the IoT API
-bash
-cd IotApi
-dotnet run
-Step 4: Run the Sensor Simulator
-bash
-# In a new terminal
-cd SensorSimulator
-dotnet run
-Step 5: Launch the Web Dashboard
-bash
-# In a new terminal
-cd Dashboard
-python3 -m http.server 5500
-Step 6: Open the Dashboard
-Open your browser to: http://localhost:5500
 
-📊 API Reference
-Method	Endpoint	Description
-POST	/api/sensor/data	Ingest sensor data
-GET	/api/sensor/memory	Get recent data from memory
-GET	/api/sensor/data/{deviceId}	Get historical data from InfluxDB
-GET	/api/sensor/health	Health check
-Example API Calls
+### Access Services
+
+| Service | URL | Description |
+| --- | --- | --- |
+| Dashboard | [http://localhost:5500](http://localhost:5500/) | Real-time sensor visualization |
+| API Health | <http://localhost:5215/api/sensor/health> | API health check |
+| Sensor Data | <http://localhost:5215/api/sensor/memory> | View raw sensor data |
+| InfluxDB | [http://localhost:8086](http://localhost:8086/) | Time-series database |
+| MQTT | mqtt://localhost:1883 | MQTT broker |
+
+📊 API Endpoints
+----------------
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| GET | `/api/sensor/health` | Health check |
+| GET | `/api/sensor/memory` | Get recent data from memory |
+| GET | `/api/sensor/data/{deviceId}` | Get historical data from InfluxDB |
+| POST | `/api/sensor/data` | Ingest sensor data |
+
+### Example API Call
+
 bash
-# Store sensor data
-curl -X POST http://localhost:5215/api/sensor/data \
-  -H "Content-Type: application/json" \
+
+# Ingest sensor data
+curl -X POST http://localhost:5215/api/sensor/data\
+  -H "Content-Type: application/json"\
   -d '{"deviceId":"sensor-01","temperature":23.5,"humidity":55.2,"pressure":1013.2}'
 
-# Get recent data
+# Query latest data
 curl http://localhost:5215/api/sensor/memory
 
-# Get historical data (last 24 hours)
-curl http://localhost:5215/api/sensor/data/sensor-01
+🐳 Docker Services
+------------------
 
-# Health check
-curl http://localhost:5215/api/sensor/health
-🎨 Dashboard Features
-Live Cards - Temperature, Humidity, Pressure with trend indicators
+| Container | Purpose | Port |
+| --- | --- | --- |
+| `iot-mosquitto` | MQTT Broker | 1883, 9001 |
+| `iot-influxdb` | Time-series database | 8086 |
+| `iot-postgres` | Device metadata | 5433 |
+| `iot-api` | .NET 8 REST API | 5215 |
+| `iot-dashboard` | Web UI (Nginx) | 5500 |
+| `iot-simulator` | Sensor data generator | - |
 
-Real-time Chart - Interactive line chart with Chart.js
+### Docker Commands
 
-Data Table - Recent readings with timestamps
+bash
 
-Status Indicator - Shows API connection status
+# View all containers
+docker-compose ps
 
-Auto-refresh - Updates every 5 seconds
+# View logs
+docker-compose logs -f
+
+# View specific service logs
+docker-compose logs -f iot-api
+docker-compose logs -f simulator
+
+# Stop all services
+docker-compose down
+
+# Restart all services
+docker-compose restart
+
+# Rebuild after changes
+docker-compose build --no-cache
+docker-compose up -d
 
 📁 Project Structure
+--------------------
+
 text
+
 iot-dashboard/
 ├── IotApi/                      # .NET 8 Web API
 │   ├── Controllers/             # REST endpoints
 │   ├── Services/                # MQTT + InfluxDB services
 │   ├── Models/                  # Data models
-│   └── Program.cs               # DI configuration
-├── SensorSimulator/             # Simulates IoT sensor
-├── Dashboard/                   # Web dashboard
-│   ├── index.html               # Main dashboard page
+│   ├── Program.cs               # Configuration with CORS
+│   └── Dockerfile               # ARM64 optimized
+├── Dashboard/                   # Web Dashboard
+│   ├── index.html               # Main dashboard
 │   ├── css/style.css            # Styling
-│   └── js/dashboard.js          # Real-time updates
-├── mosquitto/                   # MQTT broker config
-├── docker-compose.yml           # Infrastructure containers
+│   ├── js/dashboard.js          # Real-time updates
+│   ├── nginx.conf               # Nginx proxy config
+│   └── Dockerfile               # Nginx container
+├── SensorSimulator/             # Data generator
+│   ├── Program.cs               # Simulates sensor data
+│   └── Dockerfile               # .NET console container
+├── mosquitto/config/            # MQTT configuration
+├── docker-compose.yml           # 6-service orchestration
 └── README.md                    # This file
+
+🔧 Configuration
+----------------
+
+### Environment Variables
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `DEVICE_ID` | sensor-01 | Simulator device ID |
+| `API_URL` | [http://iot-api:5215](http://iot-api:5215/) | API endpoint for simulator |
+| `InfluxDB__Token` | my-super-secret-token-123 | InfluxDB auth token |
+
+### Ports
+
+| Service | Host Port | Container Port |
+| --- | --- | --- |
+| MQTT | 1883 | 1883 |
+| MQTT WebSocket | 9001 | 9001 |
+| InfluxDB | 8086 | 8086 |
+| PostgreSQL | 5433 | 5432 |
+| IoT API | 5215 | 5215 |
+| Dashboard | 5500 | 80 |
+
+📈 Dashboard Features
+---------------------
+
+-   Live Cards - Temperature, humidity, pressure with trend indicators
+
+-   Real-time Chart - Interactive line chart using Chart.js
+
+-   Data Table - Recent readings with timestamps
+
+-   Status Indicator - Shows API connection status
+
+-   Auto-refresh - Updates every 5 seconds
+
 🛠️ Technology Stack
-Component	Technology	Purpose
-Backend API	C# .NET 8	REST API + MQTT subscriber
-Message Broker	Mosquitto (MQTT)	IoT message routing
-Time-Series DB	InfluxDB 2.7	Historical sensor data
-Relational DB	PostgreSQL 15	Device metadata
-Dashboard	HTML/CSS/JS + Chart.js	Real-time visualization
-Containerization	Docker	Infrastructure isolation
+--------------------
+
+| Component | Technology | Purpose |
+| --- | --- | --- |
+| Backend API | C# .NET 8 | REST API + MQTT subscriber |
+| Message Broker | Mosquitto | MQTT message routing |
+| Time-Series DB | InfluxDB 2.7 | Sensor data storage |
+| Relational DB | PostgreSQL 15 | Device metadata |
+| Web Dashboard | HTML/CSS/JS + Chart.js | Real-time visualization |
+| Reverse Proxy | Nginx | API proxy for dashboard |
+| Containerization | Docker + Compose | 6-service orchestration |
+
 🎯 Skills Demonstrated
-Skill	How It's Shown
-C# .NET 8	Complete Web API with dependency injection
-MQTT Protocol	Pub/sub pattern for IoT data ingestion
-Time-Series Database	InfluxDB for metrics storage
-Dual Storage Pattern	Memory (fast) + InfluxDB (persistent)
-Background Services	MQTT subscriber as hosted service
-REST API Design	Clean endpoints with proper HTTP status
-Real-time Dashboard	Live charts with auto-refresh
-Docker	Multi-container infrastructure
-ARM64 Optimization	Running on Raspberry Pi 5
-🔍 Monitoring & Debugging
+----------------------
+
+-   ✅ C# .NET 8 - Web API with dependency injection
+
+-   ✅ MQTT Protocol - Pub/sub pattern for IoT
+
+-   ✅ Time-Series Database - InfluxDB for metrics
+
+-   ✅ Docker - Multi-container orchestration
+
+-   ✅ ARM64 Optimization - Raspberry Pi 5 deployment
+
+-   ✅ REST API Design - Clean endpoints with Swagger
+
+-   ✅ Real-time Dashboard - Live charts with Chart.js
+
+🔍 Troubleshooting
+------------------
+
+### Check container status
+
 bash
-# Check all container status
+
 docker-compose ps
 
-# View MQTT broker logs
-docker logs mqtt-broker -f
+### View API logs
 
-# Check InfluxDB health
-curl http://localhost:8086/health
+bash
 
-# View API logs (in API terminal)
-# Look for "Stored sensor data" messages
+docker-compose logs iot-api
 
-# Check memory storage
-curl http://localhost:5215/api/sensor/memory
-📈 Performance Metrics
-API Response Time: <10ms (memory), <50ms (InfluxDB)
+### Test API connectivity
 
-Data Ingestion: 5-second intervals from simulator
+bash
 
-Dashboard Refresh: Every 5 seconds
+curl http://localhost:5215/api/sensor/health
 
-Storage: InfluxDB compression (90%+ space saving)
+### Restart a specific service
 
-Resource Usage: <512MB RAM for all services
+bash
 
-🚧 Future Improvements
-Add device registration (PostgreSQL)
+docker-compose restart iot-api
 
-User authentication (JWT)
-
-Email/SMS alerts for threshold violations
-
-WebSocket push notifications
-
-Prometheus + Grafana monitoring
-
-Helm charts for K3s deployment
-
-CI/CD pipeline with GitHub Actions
-
-🐛 Troubleshooting
-Issue	Solution
-API won't start	Check port 5215: sudo lsof -i :5215
-No data in dashboard	Verify API is running: curl http://localhost:5215/api/sensor/health
-MQTT connection failed	Check broker: docker logs mqtt-broker
-InfluxDB write errors	Check token in appsettings.json
 📝 License
-MIT License - see LICENSE file
+----------
+
+MIT License - see [LICENSE](https://license/) file
 
 👤 Author
-Bikash Chhetri
+---------
+
+Bikash Chhetri\
 Senior Software Engineer | Embedded Systems & Fintech
 
-7+ years: C# .NET, C++, Azure, Payment Systems
+-   7+ years: C# .NET, C++, Azure, Payment Systems
 
-Built: EFT-POS integrations, card issuance kiosks, RTOS payment terminals
+-   Built: EFT-POS integrations, card issuance kiosks, RTOS payment terminals
 
-🔗 GitHub
-🔗 LinkedIn
+[](https://github.com/krishnasbyte)<https://img.shields.io/badge/GitHub-krishnasbyte-181717?style=flat&logo=github>\
+[](https://linkedin.com/in/bikash-chhetri)<https://img.shields.io/badge/LinkedIn-Bikash%2520Chhetri-0077B5?style=flat&logo=linkedin>
 
-🙏 Acknowledgments
-Microsoft for .NET and excellent documentation
+* * * * *
 
-InfluxData for time-series database
+🌟 Star This Repository
+-----------------------
 
-The MQTT community for lightweight protocol
+If you find this project useful, please give it a star! ⭐
 
-Raspberry Pi Foundation for amazing hardware
+* * * * *
 
-*Built on Raspberry Pi 5 - Production-grade IoT infrastructure on edge hardware*
-
-⭐ Star this repository if you find it useful!
+*Built on Raspberry Pi 5 - Production-grade IoT infrastructure running entirely in Docker containers* 🚀\

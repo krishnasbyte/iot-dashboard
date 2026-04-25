@@ -21,7 +21,7 @@ while (true)
     {
         var sensorData = new
         {
-            deviceId = deviceId,  // ← This is now included!
+            deviceId = deviceId,
             temperature = Math.Round(random.NextDouble() * 20 + 15, 1),
             humidity = Math.Round(random.NextDouble() * 50 + 30, 1),
             pressure = Math.Round(random.NextDouble() * 30 + 1000, 1),

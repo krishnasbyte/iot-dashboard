@@ -2,6 +2,9 @@ using IotApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure to listen on port 5215
+builder.WebHost.UseUrls("http://0.0.0.0:5215");
+
 // Add CORS
 builder.Services.AddCors(options =>
 {
@@ -20,9 +23,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<InfluxDbService>();
 builder.Services.AddHostedService<MqttSubscriber>();
 
-// Configure to listen on all network interfaces
-builder.WebHost.UseUrls("http://0.0.0.0:5215");
-
 var app = builder.Build();
 
 app.UseCors("AllowAll");
@@ -37,6 +37,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-app.MapGet("/", () => "IoT API Running! Access at http://<your-ip>:5215");
+app.MapGet("/", () => "IoT API Running! Port 5215");
 
 app.Run();
